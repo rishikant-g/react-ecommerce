@@ -13,7 +13,7 @@ var Signup  = function(props){
    if(registered){
        toast('Registration successfull , pls login to continue')
         // props.history.push('/login')
-    }else if(!registered){
+    }else if(registered != undefined && !registered){
         toast('Something went wrong try later') 
     }
     var register =  ()=>{
