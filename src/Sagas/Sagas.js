@@ -1,6 +1,7 @@
 import {takeEvery, put, takeLatest, fork} from "redux-saga/effects"
 import axios from "axios";
 import { act } from "react-dom/test-utils";
+import {toast} from "react-toastify"
 // Initializing product on page load
 function* initializeProduct(){
     var result = yield axios({
@@ -33,17 +34,25 @@ function* initializeCart(action){
 
 
 function* signUp(action){
-    var result = axios({
+    var result = yield axios({
                 url:'https://apibyashu.herokuapp.com/api/register',
                 method:'post',
                 data:action.user
                 }).then((response)=>{
+                    console.log('resposne of singup')
                 return response
+                },(error) => {
+                    console.log('error of singup')
+                    return error
                 })
-            yield put({type: 'REGISTERED', payload: result.data.data})
+            if(result.data){
+                yield put({type: 'REGISTERED', payload: ''})
+            }else{
+                // toast('toast from saga')
+                yield put({type: 'REGISTRATION_FAILED', payload: ''})
+            }
+            
 }
-
-
 // Login 
 function* login(action){
     var result = yield axios({
@@ -94,12 +103,40 @@ function* removeFromCart(action){
    
 }
 
+function* submitOrder(action){
+    var result = yield axios({
+                url:'https://apibyashu.herokuapp.com/api/addorder',
+                method:'post',
+                data:action.payload,
+                headers: {'Content-Type': 'multipart/form-data' } 
+                }).then((response)=>{
+                    console.log('resposne of submit order',response)
+                return response
+                },(error) => {
+                    console.log('resposne of submit order')
+                    return error
+                })
+            if(result.data.error){
+                toast('order failed')
+                yield put({type: 'ORDER_FAILURE', payload: ''})
+            }else{
+                yield put({type: 'ORDER_SUCCESSFULL', payload: ''}) 
+            }
+            
+}
+
+
 export function* runSignup(){
     yield takeLatest("REGISTER", signUp);
 }
 
+export function* runSubmitOrder(){
+    yield takeLatest("SUBMIT_ORDER", submitOrder);
+}
+
 export function* RootSaga(){
     yield fork(runSignup)
+    yield fork(runSubmitOrder)
     yield takeLatest("INITIALIZE_PRODUCT", initializeProduct);
     // yield takeEvery("LOAD_SINGLE_PRODUCT", productDetails);
     yield takeLatest("LOGIN", login);

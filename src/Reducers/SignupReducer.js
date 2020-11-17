@@ -1,6 +1,4 @@
-export function SignupReducer(state = {
-    registered: false
-}, action){
+export function SignupReducer(state = {}, action){
 
     switch(action.type){
         case "REGISTER": {
@@ -10,6 +8,11 @@ export function SignupReducer(state = {
         case "REGISTERED": {
             state = {...state}
             state['registered'] = true
+            return state
+        }
+        case "REGISTRATION_FAILED": {
+            state = {...state}
+            state['registered'] = false
             return state
         }
         default: return state

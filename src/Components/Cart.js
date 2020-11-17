@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import {useSelector, useDispatch} from "react-redux"
+import { Link } from "react-router-dom";
 import WithAuth from "../Hoc/WithAuth"
 
 function Cart(){
@@ -40,6 +41,8 @@ function Cart(){
         })
         
         }
+        <hr />
+        <Link to="/checkout"><button class="btn btn-success">Continue</button></Link>
         </React.Fragment>
     )
 }

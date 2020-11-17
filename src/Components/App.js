@@ -7,7 +7,11 @@ import Cart from "./Cart";
 import Login from "./Login";
 import Signup from "./Signup";
 import Addproduct from "./Addproduct"
+import Checkout from "./Checkout"
+import Orders from "./Orders"
 import {useDispatch, useSelector} from "react-redux"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function App(){
@@ -48,7 +52,10 @@ export default function App(){
                 <Route path="/addproduct" exact component={Addproduct} />
                 <Route path="/product-details/:id" exact component={ProductDetail} />
                 <Route path="/cart" exact render={(props) => <Cart {...props} /> }  />
+                <Route path="/checkout" exact render={(props) => <Checkout {...props} /> }  />
+                <Route path="/orders" exact render={(props) => <Orders {...props} /> }  />
             </Switch>
+            <ToastContainer />
         </BrowserRouter>
     )
 }

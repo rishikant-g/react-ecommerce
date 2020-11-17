@@ -25,6 +25,14 @@ import { Redirect, withRouter } from "react-router-dom";
       localStorage.isLoggedIn = isLoggedIn;  
     }
 
+    if(isLoggedIn){
+      let user = JSON.parse(localStorage.user);
+          dispatch({
+              type: "INITIALIZE_CART",
+              payload: {email: user.email}
+          })
+    }
+
     return(
         <form>
         <div class="form-group">
