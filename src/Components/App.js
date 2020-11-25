@@ -12,6 +12,7 @@ import Orders from "./Orders"
 import {useDispatch, useSelector} from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TextComp from './TestComp'
 
 
 export default function App(){
@@ -46,6 +47,7 @@ export default function App(){
             <Switch>
                 <Route path="/" exact>
                     <ProductList searchTxt={searchText}/>
+                    {/* <TextComp/> */}
                 </Route>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
@@ -55,6 +57,7 @@ export default function App(){
                 <Route path="/checkout" exact render={(props) => <Checkout {...props} /> }  />
                 <Route path="/orders" exact render={(props) => <Orders {...props} /> }  />
             </Switch>
+
             <ToastContainer />
         </BrowserRouter>
     )
